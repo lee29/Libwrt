@@ -1,0 +1,10 @@
+config rpcd
+	option socket /var/run/ubus/ubus.sock
+	option timeout 30
+#注释掉前三行可以解决VIKINGYFY源码重启后root密码正确却无法登陆，但会导致不间断断流
+config login
+	option username 'root'
+	option password '$p$root'
+	list read '*'
+	list write '*'
+

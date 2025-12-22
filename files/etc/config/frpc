@@ -1,0 +1,182 @@
+
+config init
+	option user 'root'
+	option group 'root'
+	option respawn '1'
+
+config conf 'common'
+	option server_addr ''
+	option server_port '5443'
+	option log_level 'trace'
+	option log_max_days '3'
+	option token ''
+	option admin_port '7400'
+	option admin_user ''
+	option admin_pwd ''
+	option user 'lee29'
+	option protocol 'tcp'
+	option tls_enable 'false'
+	option log_file '/etc/config/frpc.log'
+	option admin_addr '192.168.1.1'
+	option disable_log_color 'true'
+
+config conf 'ssh'
+	option type 'tcp'
+	option local_ip '127.0.0.1'
+	option local_port '22'
+	option remote_port '6000'
+	option name 'ssh'
+
+config conf
+	option name 'luyouqi'
+	option type 'http'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.1'
+	option local_port '80'
+	option subdomain 'luyouqi'
+
+config conf
+	option name 'kms'
+	option type 'tcp'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.1'
+	option local_port '1688'
+	option remote_port '1688'
+
+config conf
+	option name 'nas'
+	option type 'http'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.29'
+	option local_port '5000'
+	option subdomain 'nas'
+
+config conf
+	option name 'wol'
+	option type 'udp'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.29'
+	option local_port '9'
+	option remote_port '9'
+
+config conf
+	option name 'nas-ftp'
+	option type 'tcp'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.29'
+	option local_port '21'
+	option remote_port '2121'
+
+config conf
+	option name 'nas-ftp1'
+	option type 'tcp'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.29'
+	option local_port '8815'
+	option remote_port '8815'
+
+config conf
+	option name 'nas-ftp2'
+	option type 'tcp'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.29'
+	option local_port '8816'
+	option remote_port '8816'
+
+config conf
+	option name 'nas-ftp3'
+	option type 'tcp'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.29'
+	option local_port '8817'
+	option remote_port '8817'
+
+config conf
+	option name 'nas-ftp4'
+	option type 'tcp'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.29'
+	option local_port '8818'
+	option remote_port '8818'
+
+config conf
+	option name 'nas-jellyfin'
+	option type 'http'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.29'
+	option local_port '8096'
+	option subdomain 'video'
+
+config conf
+	option name 'nas-photo'
+	option type 'tcp'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.29'
+	option local_port '6069'
+	option remote_port '6069'
+
+config conf
+	option name 'luyouqi-smb'
+	option type 'tcp'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.1'
+	option local_port '445'
+	option remote_port '4451'
+
+config conf
+	option name 'nas-web'
+	option type 'http'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.29'
+	option local_port '8080'
+	option subdomain 'nas-web'
+
+config conf
+	option name 'nas-sftp'
+	option type 'tcp'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.29'
+	option local_port '22'
+	option remote_port '2222'
+
+config conf
+	option name 'luyouqi-frp'
+	option type 'http'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.1'
+	option local_port '7400'
+	option subdomain 'frp'
+
+config conf
+	option name 'openlist'
+	option type 'http'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.1'
+	option local_port '5244'
+	option subdomain 'openlist'
+
+config conf
+	option name 'xunlei'
+	option type 'http'
+	option use_encryption 'false'
+	option use_compression 'false'
+	option local_ip '192.168.1.1'
+	option local_port '5055'
+	option subdomain 'xunlei'
+

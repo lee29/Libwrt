@@ -1,0 +1,12 @@
+
+config xunlei
+	option enabled '1'
+	option debug '0'
+	option host '0.0.0.0'
+	option port '5055'
+	option download_path '/mnt/mmcblk0p27/xunlei/downloads'
+	option mount_bind_download_path '/xunlei'
+	option config_path '/mnt/mmcblk0p27/xunlei'
+	option auth_user 'xunlei'
+	option auth_password 'xunlei'
+

@@ -1,0 +1,30 @@
+#!/bin/sh /etc/rc.common
+# 
+#  
+START=200
+STOP=150
+
+start() {
+        frpc_count=`ps | grep /usr/bin/frpc | grep -v "grep"  | wc -l`
+        if [ $frpc_count -eq 0 ]; then
+                echo 没有运行，正在启动...
+                /usr/bin/frpc -c /etc/config/frpc &
+                sleep 1
+                echo 已启动FRPC
+
+                else
+                        echo 已运行，无需启动
+                fi
+}                 
+
+stop() {   
+        frpc_count=`ps | grep /usr/bin/frpc | grep -v "grep"  | wc -l`
+        if [ $frpc_count -eq 0 ]; then
+                echo 没有运行，无需停止
+                else
+                        echo 已运行，正在停止...
+                        kill -9 $(pidof frpc)
+                        sleep 1
+                        echo 已停止FRPC
+                fi
+}
