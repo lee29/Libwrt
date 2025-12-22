@@ -109,6 +109,7 @@ jobs:
         chmod +x $DIY_2SCRIPT
         cd $OPENWRT_PATH
         $GITHUB_WORKSPACE/$DIY_2SCRIPT
+        ./scripts/feeds install -a
 
     - name: Download DL Package(下载DL软件包)
       run: |
