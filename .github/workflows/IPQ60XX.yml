@@ -111,6 +111,12 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_2SCRIPT
         ./scripts/feeds install -a
 
+    - name: Load Custom Configuration(加载自定义配置2)
+      run: |
+        chmod +x $DIY_2SCRIPT
+        cd $OPENWRT_PATH
+        $GITHUB_WORKSPACE/$DIY_2SCRIPT      
+
     - name: Download DL Package(下载DL软件包)
       run: |
         cd $OPENWRT_PATH
