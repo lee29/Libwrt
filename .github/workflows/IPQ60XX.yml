@@ -113,8 +113,8 @@ jobs:
 
     - name: Load Custom Configuration(加载自定义配置2)
       run: |
-        chmod +x $DIY_SCRIPT2
         cd $OPENWRT_PATH
+        chmod +x $DIY_SCRIPT2
         $GITHUB_WORKSPACE/$DIY_SCRIPT2      
 
     - name: Download DL Package(下载DL软件包)
