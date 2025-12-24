@@ -10,7 +10,7 @@ env:
   REPO_BRANCH: main-nss
   CONFIG_FILE: configs/ipq60xx.config
   DIY_SCRIPT: scripts/1script.sh
-  DIY_SCRIPT2: scripts/2script.sh
+  DIY_2SCRIPT: scripts/2script.sh
   CLASH_KERNEL: amd64
   CACHE_TOOLCHAIN: true
   UPLOAD_BIN_DIR: false
@@ -103,19 +103,13 @@ jobs:
       run: |
         [ -e files ] && mv files $OPENWRT_PATH/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE $OPENWRT_PATH/.config
-        chmod +x $DIY_SCRIPT
+        chmod +x $GITHUB_WORKSPACE/$DIY_SCRIPT
         cd $OPENWRT_PATH
         $GITHUB_WORKSPACE/$DIY_SCRIPT
-        chmod +x $DIY_2SCRIPT
+        chmod +x $GITHUB_WORKSPACE/$DIY_2SCRIPT
         cd $OPENWRT_PATH
         $GITHUB_WORKSPACE/$DIY_2SCRIPT
-        ./scripts/feeds install -a
-
-    - name: Load Custom Configuration(加载自定义配置2)
-      run: |
-        cd $OPENWRT_PATH
-        chmod +x $DIY_SCRIPT2
-        $GITHUB_WORKSPACE/$DIY_SCRIPT2      
+        ./scripts/feeds install -a 
 
     - name: Download DL Package(下载DL软件包)
       run: |
