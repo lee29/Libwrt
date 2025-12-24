@@ -103,7 +103,7 @@ jobs:
       run: |
         df -hT $GITHUB_WORKSPACE
         [ -e $GITHUB_WORKSPACE/files ] && cp -Rf $GITHUB_WORKSPACE/files $OPENWRT_PATH
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE $OPENWRT_PATH/.config
+        [ -e $CONFIG_FILE ] && cp -Rf $CONFIG_FILE $OPENWRT_PATH/.config
         cat $GITHUB_WORKSPACE/$CONFIG_FILE > $OPENWRT_PATH/.config
         chmod +x $GITHUB_WORKSPACE/$DIY_SCRIPT
         cd $OPENWRT_PATH
