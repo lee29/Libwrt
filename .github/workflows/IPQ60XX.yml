@@ -9,8 +9,8 @@ env:
   REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
   REPO_BRANCH: main-nss
   CONFIG_FILE: configs/ipq60xx.config
-  DIY_SCRIPT: scripts/script1.sh
-  DIY_2SCRIPT: scripts/script2.sh
+  DIY_SCRIPT: scripts/1script.sh
+  DIY_SCRIPT2: scripts/2script.sh
   CLASH_KERNEL: amd64
   CACHE_TOOLCHAIN: true
   UPLOAD_BIN_DIR: false
@@ -113,9 +113,9 @@ jobs:
 
     - name: Load Custom Configuration(加载自定义配置2)
       run: |
-        chmod +x $DIY_2SCRIPT
+        chmod +x $DIY_SCRIPT2
         cd $OPENWRT_PATH
-        $GITHUB_WORKSPACE/$DIY_2SCRIPT      
+        $GITHUB_WORKSPACE/$DIY_SCRIPT2      
 
     - name: Download DL Package(下载DL软件包)
       run: |
