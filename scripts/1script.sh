@@ -50,7 +50,7 @@ git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter toml11
 git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter sub-web
 git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter subconverter
 mv -v {jpcre2,libcron,quickjspp,rapidjson,toml11} feeds/packages/libs
-mv -v {sub-web,subconverter} feeds/packages/libs
+mv -v {sub-web,subconverter} feeds/packages/net
 chmod +x feeds/packages/libs/{jpcre2,libcron,quickjspp,rapidjson,toml11}
 chmod +x feeds/packages/net/{sub-web,subconverter}
 
