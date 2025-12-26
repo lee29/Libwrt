@@ -41,22 +41,27 @@ chmod +x package/xunlei
 
 ###----------------------------------------------------------------------
 # 移除 subconverter核心库
-# rm -rf feeds/packages/libs/{jpcre2,libcron,quickjspp,rapidjson,toml11}
-# rm -rf feeds/packages/net/{sub-web,subconverter}
-# git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter jpcre2 feeds/packages/libs/jpcre2
-# git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter libcron feeds/packages/libs/libcron
-# git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter quickjspp feeds/packages/libs/quickjspp
-# git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter rapidjson feeds/packages/libs/rapidjson
-# git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter toml11 feeds/packages/libs/toml11
-# git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter sub-web feeds/packages/net/sub-web
-# git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter subconverter feeds/packages/net/subconverter
-# chmod +x feeds/packages/libs/{jpcre2,libcron,quickjspp,rapidjson,toml11}
-# chmod +x feeds/packages/net/{sub-web,subconverter}
+rm -rf feeds/packages/libs/{jpcre2,libcron,quickjspp,rapidjson,toml11}
+rm -rf feeds/packages/net/{sub-web,subconverter}
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter jpcre2 
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter libcron 
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter quickjspp 
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter rapidjson
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter toml11 
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter sub-web
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter subconverter
+mv -v {jpcre2,libcron,quickjspp,rapidjson,toml11} feeds/packages/libs
+mv -v {sub-web,subconverter} feeds/packages/libs
+chmod +x feeds/packages/libs/{jpcre2,libcron,quickjspp,rapidjson,toml11}
+chmod +x feeds/packages/net/{sub-web,subconverter}
+
+
+
 #sed -i '$a src-git openwrt-subconverter https://github.com/Dawneng/openwrt-subconverter' feeds.conf.default
 ### 添加 luci-app-subconverter 订阅转换界面
 #git_sparse_clone main https://github.com/0x2196f3/luci-app-subconverter feeds/luci/applications/luci-app-subconverter
 git clone --depth=1 https://github.com/0x2196f3/luci-app-subconverter feeds/luci/applications/luci-app-subconverter
-chmod +x feeds/luci/applications/luci-app-subconverter
+git_sparse_clone main https://github.com/0x2196f3/luci-app-subconverter
 #内置订阅转换后端服务
 #【https://github.com/Aethersailor/Custom_OpenClash_Rules/wiki/%E4%B8%80%E4%BA%9B%E9%9B%B6%E7%A2%8E%E7%9A%84%E6%95%99%E7%A8%8B#11-immortalwrt-%E4%B8%8B%E6%90%AD%E5%BB%BA%E8%AE%A2%E9%98%85%E8%BD%AC%E6%8D%A2%E5%90%8E%E7%AB%AF%E6%9C%8D%E5%8A%A1】
 mkdir -p files/etc/subconverter/config
