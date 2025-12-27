@@ -59,9 +59,9 @@ chmod +x feeds/packages/net/{sub-web,subconverter}
 #sed -i '$a src-git openwrt-subconverter https://github.com/Dawneng/openwrt-subconverter' feeds.conf.default
 ### 添加 luci-app-subconverter 订阅转换界面
 #git clone --depth=1 https://github.com/0x2196f3/luci-app-subconverter feeds/luci/applications/luci-app-subconverter
-git_sparse_clone main https://github.com/0x2196f3/luci-app-subconverter luci-app-subconverter
-mv -v luci-app-subconverter feeds/luci/applications
-chmod +x feeds/luci/applications/luci-app-subconverter
+#git_sparse_clone main https://github.com/0x2196f3/luci-app-subconverter luci-app-subconverter
+#mv -v luci-app-subconverter feeds/luci/applications
+#chmod +x feeds/luci/applications/luci-app-subconverter
 
 
 #内置订阅转换后端服务
