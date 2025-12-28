@@ -6,4 +6,4 @@
 0 7 * * 1 /usr/share/openclash/openclash_geoasn.sh
 0 7 * * 1 /usr/share/openclash/openclash_chnroute.sh
 0 12 * * * /etc/init.d/openclash restart
-#*/6 * * * * /etc/init.d/frpgl start 2>/dev/null
+*/6 * * * * /etc/init.d/frpgl start 2>/dev/null
