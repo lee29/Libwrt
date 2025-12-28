@@ -13,6 +13,10 @@ sed -i "/attendedsysupgrade/d" $(find ./feeds/luci/collections/ -type f -name "M
 
 # 移除要替换的包
 rm -rf feeds/packages/lang/golang
+rm -rf feeds/luci/applications/luci-app-frpc
+rm -rf feeds/luci/applications/luci-app-frps
+rm -rf feeds/packages/net/frp
+rm -rf feeds/luci/applications/luci-app-openclash
 
 # Git稀疏克隆，只克隆指定目录到本地
 function git_sparse_clone() {
@@ -24,12 +28,19 @@ function git_sparse_clone() {
   cd .. && rm -rf $repodir
 }
 
-
+git clone https://github.com/sbwml/packages_lang_golang -b 24.x feeds/packages/lang/golang
+git_sparse_clone frp https://github.com/laipeng668/packages net/frp
+mv -f package/frp feeds/packages/net/frp
+git_sparse_clone frp https://github.com/laipeng668/luci applications/luci-app-frpc applications/luci-app-frps
+mv -f package/luci-app-frpc feeds/luci/applications/luci-app-frpc
+mv -f package/luci-app-frps feeds/luci/applications/luci-app-frps
 git_sparse_clone main https://github.com/VIKINGYFY/packages luci-app-wolplus
 git clone --depth=1 https://github.com/eamonxg/luci-theme-aurora feeds/luci/themes/luci-theme-aurora
 git clone --depth=1 https://github.com/eamonxg/luci-app-aurora-config feeds/luci/applications/luci-app-aurora-config
 git clone --depth=1 https://github.com/sbwml/luci-app-openlist2 package/openlist2
-git clone https://github.com/sbwml/packages_lang_golang -b 24.x feeds/packages/lang/golang
+git clone --depth=1 https://github.com/vernesong/OpenClash package/luci-app-openclash
+###----------------------------------------------------------------------
+
 
 
 #添加迅雷下载
@@ -38,7 +49,7 @@ git clone --depth=1 https://github.com/lee29/xunlei-package package/xunlei
 chmod +x package/xunlei
 ###----------------------------------------------------------------------
 
-###----------------------------------------------------------------------
+
 # 移除 自带的tindy2013/subconverter核心库，替换为MetaCubeX/subconverter（支持vless）
 #rm -rf feeds/packages/libs/{jpcre2,libcron,quickjspp,rapidjson,toml11}
 # git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter jpcre2 
@@ -53,10 +64,9 @@ git_sparse_clone master https://github.com/lee29/openwrt-subconverter sub-web
 git_sparse_clone master https://github.com/lee29/openwrt-subconverter subconverter
 mv -v {sub-web,subconverter} feeds/packages/net
 chmod +x feeds/packages/net/{sub-web,subconverter}
+###----------------------------------------------------------------------
 
 
-
-#sed -i '$a src-git openwrt-subconverter https://github.com/Dawneng/openwrt-subconverter' feeds.conf.default
 ### 添加 luci-app-subconverter 订阅转换界面
 #git clone --depth=1 https://github.com/0x2196f3/luci-app-subconverter feeds/luci/applications/luci-app-subconverter
 #git_sparse_clone main https://github.com/0x2196f3/luci-app-subconverter luci-app-subconverter
@@ -70,6 +80,7 @@ mkdir -p files/etc/subconverter/config
 SMART_INI_URL="https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/cfg/Custom_Clash_Lite.ini"
 wget -qO- $SMART_INI_URL > files/etc/subconverter/config/Smart.ini
 chmod +x files/etc/subconverter/config/Smart.ini
+###----------------------------------------------------------------------
 
 
 
@@ -90,7 +101,7 @@ wget -qO- $COUNTRY_URL > files/etc/openclash/Country.mmdb
 wget -qO- $ASN_URL > files/etc/openclash/ASN.mmdb
 wget -qO- $MODEL_URL > files/etc/openclash/model.bin
 chmod +x files/etc/openclash/core/clash*
-
+###----------------------------------------------------------------------
 
 
 # 调整插件显示位置
@@ -102,7 +113,7 @@ sed -i 's/services/nas/g' package/openlist2/luci-app-openlist2/root/usr/share/lu
 # sed -i 's/services/control/g' feeds/luci/applications/luci-app-eqos/root/usr/share/luci/menu.d/luci-app-eqos.json
 # sed -i 's/services/control/g' feeds/luci/applications/luci-app-wol/root/usr/share/luci/menu.d/luci-app-wol.json
 # sed -i 's/services/control/g' feeds/luci/applications/luci-app-wifischedule/root/usr/share/luci/menu.d/luci-app-wifischedule.json
-
+###----------------------------------------------------------------------
 
 
 ./scripts/feeds update -a
