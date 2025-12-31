@@ -81,7 +81,7 @@ chmod +x feeds/packages/net/{sub-web,subconverter}
 #chmod +x feeds/luci/applications/luci-app-subconverter
 
 
-#内置订阅转换后端服务
+#内置订阅转换后端配置
 #【https://github.com/Aethersailor/Custom_OpenClash_Rules/wiki/%E4%B8%80%E4%BA%9B%E9%9B%B6%E7%A2%8E%E7%9A%84%E6%95%99%E7%A8%8B#11-immortalwrt-%E4%B8%8B%E6%90%AD%E5%BB%BA%E8%AE%A2%E9%98%85%E8%BD%AC%E6%8D%A2%E5%90%8E%E7%AB%AF%E6%9C%8D%E5%8A%A1】
 mkdir -p files/etc/subconverter/config
 SMART_INI_URL="https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/cfg/Custom_Clash_Lite.ini"
