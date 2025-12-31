@@ -10,7 +10,8 @@
 ## 项目说明
 - 固件默认管理地址：**`192.168.1.1`** 默认用户：**`root`** 默认密码：**`none`**
 - 源码来源：[breeze303](https://github.com/LiBwrt-op/openwrt-6.x) [VIKINGYFY](https://github.com/VIKINGYFY/immortalwrt)
-- 云编译来源：[ZqinKing](https://github.com/ZqinKing/wrt_release) [davidtall](https://github.com/davidtall/OpenWRT-CI) [laipeng668]([https://github.com/davidtall/OpenWRT-CI](https://github.com/laipeng668/openwrt-ci-roc))
+- 云编译来源：[ZqinKing](https://github.com/ZqinKing/wrt_release) [davidtall](https://github.com/davidtall/OpenWRT-CI)
+- [laipeng668](https://github.com/laipeng668/openwrt-ci-roc)
 -  [haiibo](https://github.com/haiibo/OpenWrt) [视频教程](https://www.youtube.com/watch?v=6j4ofS0GT38&t=507s)
 
 5GHz WIFI不正常，电脑显示连接速度1200mbps，实际拷贝吞吐只有200多。经人提醒手动指定发射功率到20db之后，可以到700mbps的吞吐。驱动默认不填的时候是27db，反而有问题
