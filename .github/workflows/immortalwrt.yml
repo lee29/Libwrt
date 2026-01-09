@@ -7,7 +7,7 @@ on:
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt.git
-  REPO_BRANCH: main-nss
+  REPO_BRANCH: master
   CONFIG_FILE: configs/ipq60xx.config
   DIY_SCRIPT: scripts/1script.sh
   DIY_2SCRIPT: scripts/2script.sh
