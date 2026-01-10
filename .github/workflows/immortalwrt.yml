@@ -6,8 +6,8 @@ on:
     - cron: 0 19 * * *
 
 env:
-  REPO_URL: https://github.com/immortalwrt/immortalwrt.git
-  REPO_BRANCH: master
+  REPO_URL: https://github.com/VIKINGYFY/immortalwrt.git
+  REPO_BRANCH: main
   CONFIG_FILE: configs/ipq60xx.config
   DIY_SCRIPT: scripts/1script.sh
   DIY_2SCRIPT: scripts/2script.sh
@@ -93,10 +93,10 @@ jobs:
       run: |
         cd $OPENWRT_PATH
         ./scripts/feeds update -a
-        git clone --depth 1 https://github.com/sbwml/openwrt_pkgs.git package/new/custom
-        mv package/new/custom/luci-app-netspeedtest  package/new
-        mv package/new/custom/speedtest-cli package/new
-        rm -rf package/new/custom
+#        git clone --depth 1 https://github.com/sbwml/openwrt_pkgs.git package/new/custom
+#        mv package/new/custom/luci-app-netspeedtest  package/new
+#        mv package/new/custom/speedtest-cli package/new
+#        rm -rf package/new/custom
         ./scripts/feeds install -a
   
     - name: Load Custom Configuration(加载自定义配置)
