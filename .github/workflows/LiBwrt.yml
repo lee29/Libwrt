@@ -112,7 +112,6 @@ jobs:
         cd $OPENWRT_PATH
         $GITHUB_WORKSPACE/$DIY_2SCRIPT
         ./scripts/feeds install -a 
-        make clean
 
     - name: Download DL Package(下载DL软件包)
       run: |
