@@ -51,9 +51,10 @@ git clone --depth=1 https://github.com/vernesong/OpenClash package/luci-app-open
 
 
 #添加迅雷下载
-#git clone --depth=1 https://github.com/lee29/thunder-openwrt package/thunder
-git clone --depth=1 https://github.com/lee29/xunlei-package package/xunlei
-chmod +x package/xunlei
+git clone --depth=1 https://github.com/lee29/thunder-openwrt package/thunder
+chmod +x package/thunder
+#git clone --depth=1 https://github.com/lee29/xunlei-package package/xunlei
+#chmod +x package/xunlei
 ###----------------------------------------------------------------------
 
 
