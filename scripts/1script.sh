@@ -41,7 +41,7 @@ function git_sparse_clone() {
 }
 #
 #
-git clone https://github.com/sbwml/packages_lang_golang -b 25.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/lang/golang
 #
 git_sparse_clone main https://github.com/VIKINGYFY/packages luci-app-wolplus
 git clone --depth=1 https://github.com/sbwml/luci-app-openlist2 package/openlist2
