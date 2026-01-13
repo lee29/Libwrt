@@ -22,24 +22,10 @@ remove_NoPasswordSet() {
 }
 
 
-Luci24_add_wifi_default_set() {
+add_wifi_default_set() {
     local qualcommax_uci_dir="$OPENWRT_PATH/target/linux/qualcommax/base-files/etc/uci-defaults"
     if [ -d "$qualcommax_uci_dir" ]; then
         install -Dm755 "$GITHUB_WORKSPACE/patches/990_set-wifi-uci.sh" "$qualcommax_uci_dir/990_set-wifi-uci.sh"  
-    fi
-}
-
-Luci26_add_wifi_default_set() {
-    local WIFI_UC="$OPENWRT_PATH/package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc"
-    if [ -d "$WIFI_UC" ]; then
-    #修改WIFI名称
-	sed -i "s/Libwrt/DelL/g" $WIFI_UC
-	#修改WIFI密码
-    sed -i "s/key='.*'/key='$WRT_WORD'/g" $WIFI_UC
-	#修改WIFI地区
-	sed -i "s/country='.*'/country='CN'/g" $WIFI_UC
-	#修改WIFI加密
-	sed -i "s/encryption='.*'/encryption='psk2+ccmp'/g" $WIFI_UC
     fi
 }
 
