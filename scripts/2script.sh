@@ -85,10 +85,11 @@ sed -ri \'/check_signature/s@^[^#]@#&@\' /etc/opkg.conf\n" $emortal_def_dir/file
 main() {
     remove_NoPasswordSet
     add_wifi_default_set
-    #custom_settings 新版本已经修复
+    #新版本已经修复
+    #custom_settings 
     #fix_build_for_openssl
     #fix_mk_def_depends
-    install_opkg_distfeeds
+    #install_opkg_distfeeds
 }
 
 main "$@"
