@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 set -o errexit
@@ -84,7 +84,7 @@ sed -ri \'/check_signature/s@^[^#]@#&@\' /etc/opkg.conf\n" $emortal_def_dir/file
 
 main() {
     remove_NoPasswordSet
-    add_wifi_default_set
+    #add_wifi_default_set 新版本没有这个sh
     #新版本已经修复
     #custom_settings 
     #fix_build_for_openssl
