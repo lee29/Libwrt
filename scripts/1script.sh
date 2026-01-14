@@ -87,8 +87,8 @@ chmod +x feeds/packages/net/{sub-web,subconverter}
 mkdir -p files/etc/subconverter/config
 SMART_INI_URL="https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/cfg/Custom_Clash_Lite.ini"
 wget -qO- $SMART_INI_URL > files/etc/subconverter/config/Smart.ini
-sed -i 's/custom_proxy_group=🚀 手动选择`select`[]♻️ 自动选择/custom_proxy_group=🚀 手动选择`select`[]♻️ 自动选择`[]♻️ 负载均衡`/g' files/etc/subconverter/config/Smart.ini
-sed -i '/custom_proxy_group=♻️ 自动选择`url-test`.*`https://www.gstatic.com/generate_204`300,,50/a\custom_proxy_group=♻️ 负载均衡`load-balance`.*`http://www.gstatic.com/generate_204`300,,100' files/etc/subconverter/config/Smart.ini
+#sed -i 's/custom_proxy_group=🚀 手动选择`select`[]♻️ 自动选择/custom_proxy_group=🚀 手动选择`select`[]♻️ 自动选择`[]♻️ 负载均衡`/g' files/etc/subconverter/config/Smart.ini
+#sed -i '/custom_proxy_group=♻️ 自动选择`url-test`.*`https://www.gstatic.com/generate_204`300,,50/a\custom_proxy_group=♻️ 负载均衡`load-balance`.*`http://www.gstatic.com/generate_204`300,,100' files/etc/subconverter/config/Smart.ini
 chmod +x files/etc/subconverter/config/Smart.ini
 ###----------------------------------------------------------------------
 
