@@ -90,7 +90,7 @@ main() {
     #custom_settings 
     #fix_build_for_openssl
     #fix_mk_def_depends
-    #install_opkg_distfeeds
+    install_opkg_distfeeds
 }
 
 main "$@"
