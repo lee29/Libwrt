@@ -46,6 +46,8 @@ git clone https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/l
 git_sparse_clone main https://github.com/VIKINGYFY/packages luci-app-wolplus
 git clone --depth=1 https://github.com/sbwml/luci-app-openlist2 package/openlist2
 git clone --depth=1 https://github.com/vernesong/OpenClash package/luci-app-openclash
+git clone --depth=1 https://github.com/nikkinikki-org/OpenWrt-nikki package/OpenWrt-nikki
+git clone --depth=1 https://github.com/nikkinikki-org/OpenWrt-momo package/OpenWrt-momo
 ###----------------------------------------------------------------------
 
 
