@@ -61,14 +61,20 @@ chmod +x package/xunlei
 
 
 # 移除 自带的tindy2013/subconverter核心库，替换为MetaCubeX/subconverter（支持vless）
-#rm -rf feeds/packages/libs/{jpcre2,libcron,quickjspp,rapidjson,toml11}
-# git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter jpcre2 
-# git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter libcron 
-# git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter quickjspp 
-# git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter rapidjson
-# git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter toml11 
-#mv -v {jpcre2,libcron,quickjspp,rapidjson,toml11} feeds/packages/libs
-#chmod +x feeds/packages/libs/{jpcre2,libcron,quickjspp,rapidjson,toml11}
+rm -rf feeds/packages/libs/{jpcre2,libcron,quickjspp,rapidjson,toml11}
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter jpcre2 
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter libcron 
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter quickjspp 
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter rapidjson
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter toml11 
+mv -v {jpcre2,libcron,quickjspp,rapidjson,toml11} feeds/packages/libs
+chmod +x feeds/packages/libs/{jpcre2,libcron,quickjspp,rapidjson,toml11}
+
+rm -rf feeds/packages/net/{sub-web,subconverter}
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter sub-web
+git_sparse_clone master https://github.com/Dawneng/openwrt-subconverter subconverter
+mv -v {sub-web,subconverter} feeds/packages/net
+chmod +x feeds/packages/net/{sub-web,subconverter}
 ###-----------------麻烦---------------------------------
 # rm -rf feeds/packages/net/{sub-web,subconverter}
 # git_sparse_clone master https://github.com/lee29/openwrt-subconverter sub-web
@@ -83,7 +89,7 @@ chmod +x package/xunlei
 # sed -i 's|PKG_MIRROR_HASH:=a64037584325db8941bec1855c7c96f6d2f37b7626fd62ef8126e8b215a44ae0|PKG_MIRROR_HASH:=skip|g' feeds/packages/net/subconverter/Makefile
 # feeds/packages/net/subconverter/Makefile
 # chmod +x feeds/packages/net/subconverter
-sed -i '$a src-git openwrt-subconverter https://github.com/Dawneng/openwrt-subconverter' feeds.conf.default
+# sed -i '$a src-git openwrt-subconverter https://github.com/Dawneng/openwrt-subconverter' feeds.conf.default
 
 
 
