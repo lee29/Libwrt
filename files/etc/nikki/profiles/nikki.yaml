@@ -106,7 +106,7 @@ dns:
 proxy-groups:
   - {name: 🚀 默认代理, type: select, proxies: [♻️ 自动选择, 🌐 美国三网, ♻️ 香港自动,♻️ 美国自动, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 日本自动, ♻️ 狮城自动, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
   - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^((?!(直连)).)*$"}
-  - {name: 🌐 美国三网, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(三网|移动|美国-))^((?!(台|日|韩|新|深)).)*$"}
+  - {name: 🌐 美国三网, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(三网|移动|AWS新加坡|美国-))^((?!(台|韩|深|日)).)*$"}
   - {name: ♻️ 香港自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
   - {name: 📹 YouTube, type: select, proxies: [♻️ 自动选择, 🌐 美国三网, ♻️ 香港自动,♻️ 美国自动, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 日本自动, ♻️ 狮城自动, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
   - {name: 🍀 Google, type: select, proxies: [♻️ 自动选择, 🌐 美国三网, ♻️ 香港自动,♻️ 美国自动, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 日本自动, ♻️ 狮城自动, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
