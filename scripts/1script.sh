@@ -107,6 +107,7 @@ chmod +x package/xunlei
 mkdir -p files/etc/subconverter/config
 #Aethersailor原版配置被封
 #SMART_INI_URL="https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/cfg/Custom_Clash_Lite.ini"
+#########https://raw.githubusercontent.com/Fzlwhyc/OpenClash-Templates/main/fzlwhyc-openclash.ini#################
 SMART_INI_URL="https://raw.githubusercontent.com/lee29/Libwrt/refs/heads/main/files/etc/openclash/custom/Custom_Clash_Lite.ini"
 wget -qO- $SMART_INI_URL > files/etc/subconverter/config/Smart.ini
 #sed -i 's/custom_proxy_group=🚀 手动选择`select`[]♻️ 自动选择/custom_proxy_group=🚀 手动选择`select`[]♻️ 自动选择`[]♻️ 负载均衡`/g' files/etc/subconverter/config/Smart.ini
@@ -117,22 +118,22 @@ chmod +x files/etc/subconverter/config/Smart.ini
 
 
 ###----------------------------------------------------------------------
-#内置openclash文件
-mkdir -p files/etc/openclash/core
-CLASH_META_URL="https://raw.githubusercontent.com/vernesong/OpenClash/core/dev/smart/clash-linux-arm64.tar.gz"
-GEOIP_URL="https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
-GEOSITE_URL="https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
-COUNTRY_URL="https://raw.githubusercontent.com/alecthw/mmdb_china_ip_list/release/Country.mmdb"
-ASN_URL="https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb"
-MODEL_URL="https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model-large.bin"
-# wget -qO- $CLASH_META_URL | gzip -d > files/etc/openclash/core/mihomo-linux-amd64
-wget -qO- $CLASH_META_URL | tar xOvz > files/etc/openclash/core/clash_meta
-wget -qO- $GEOIP_URL > files/etc/openclash/GeoIP.dat
-wget -qO- $GEOSITE_URL > files/etc/openclash/GeoSite.dat
-wget -qO- $COUNTRY_URL > files/etc/openclash/Country.mmdb
-wget -qO- $ASN_URL > files/etc/openclash/ASN.mmdb
-wget -qO- $MODEL_URL > files/etc/openclash/model.bin
-chmod +x files/etc/openclash/core/clash*
+# 内置openclash文件
+# mkdir -p files/etc/openclash/core
+# CLASH_META_URL="https://raw.githubusercontent.com/vernesong/OpenClash/core/dev/smart/clash-linux-arm64.tar.gz"
+# GEOIP_URL="https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
+# GEOSITE_URL="https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
+# COUNTRY_URL="https://raw.githubusercontent.com/alecthw/mmdb_china_ip_list/release/Country.mmdb"
+# ASN_URL="https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb"
+# MODEL_URL="https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model-large.bin"
+# # wget -qO- $CLASH_META_URL | gzip -d > files/etc/openclash/core/mihomo-linux-amd64
+# wget -qO- $CLASH_META_URL | tar xOvz > files/etc/openclash/core/clash_meta
+# wget -qO- $GEOIP_URL > files/etc/openclash/GeoIP.dat
+# wget -qO- $GEOSITE_URL > files/etc/openclash/GeoSite.dat
+# wget -qO- $COUNTRY_URL > files/etc/openclash/Country.mmdb
+# wget -qO- $ASN_URL > files/etc/openclash/ASN.mmdb
+# wget -qO- $MODEL_URL > files/etc/openclash/model.bin
+# chmod +x files/etc/openclash/core/clash*
 ###----------------------------------------------------------------------
 
 
