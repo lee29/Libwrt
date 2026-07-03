@@ -77,13 +77,17 @@ chmod +x package/xunlei
 # mv -v {sub-web,subconverter} feeds/packages/net
 # chmod +x feeds/packages/net/{sub-web,subconverter}
 ###----------------------------------------------------------------------
-sed -i 's|PKG_SOURCE_URL:=https://github.com/tindy2013/subconverter.git|PKG_SOURCE_URL:=https://github.com/asdlokj1qpi233/subconverter.git|g' feeds/packages/net/subconverter/Makefile
-sed -i 's|PKG_SOURCE_DATE:=2026-02-27|PKG_SOURCE_DATE:=2024-03-18|g' feeds/packages/net/subconverter/Makefile
-sed -i 's|PKG_SOURCE_VERSION:=5b8d3af0d7b659e3ff6029560e4a6811538a9c21|PKG_SOURCE_VERSION:=cd74f4dc22dc7ce08ebb253e675be68e6d30b28c|g' feeds/packages/net/subconverter/Makefile
-sed -i 's|PKG_VERSION:=0.9.0|PKG_VERSION:=0.9.9|g' feeds/packages/net/subconverter/Makefile
-sed -i 's|PKG_MIRROR_HASH:=a64037584325db8941bec1855c7c96f6d2f37b7626fd62ef8126e8b215a44ae0|PKG_MIRROR_HASH:=skip|g' feeds/packages/net/subconverter/Makefile
-feeds/packages/net/subconverter/Makefile
-chmod +x feeds/packages/net/subconverter
+# sed -i 's|PKG_SOURCE_URL:=https://github.com/tindy2013/subconverter.git|PKG_SOURCE_URL:=https://github.com/asdlokj1qpi233/subconverter.git|g' feeds/packages/net/subconverter/Makefile
+# sed -i 's|PKG_SOURCE_DATE:=2026-02-27|PKG_SOURCE_DATE:=2024-03-18|g' feeds/packages/net/subconverter/Makefile
+# sed -i 's|PKG_SOURCE_VERSION:=5b8d3af0d7b659e3ff6029560e4a6811538a9c21|PKG_SOURCE_VERSION:=cd74f4dc22dc7ce08ebb253e675be68e6d30b28c|g' feeds/packages/net/subconverter/Makefile
+# sed -i 's|PKG_VERSION:=0.9.0|PKG_VERSION:=0.9.9|g' feeds/packages/net/subconverter/Makefile
+# sed -i 's|PKG_MIRROR_HASH:=a64037584325db8941bec1855c7c96f6d2f37b7626fd62ef8126e8b215a44ae0|PKG_MIRROR_HASH:=skip|g' feeds/packages/net/subconverter/Makefile
+# feeds/packages/net/subconverter/Makefile
+# chmod +x feeds/packages/net/subconverter
+
+#subconverter/src/generator/config/subexport.cpp查看支持的协议
+#https://github.com/lwiles692/subconverter
+
 # sed -i '$a src-git openwrt-subconverter https://github.com/Dawneng/openwrt-subconverter' feeds.conf.default
 
 
