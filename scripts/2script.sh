@@ -18,9 +18,9 @@ trap 'error_handler' ERR
 #去除空密码提示
 remove_NoPasswordSet() {
     install -Dm755 "$GITHUB_WORKSPACE/patches/luci-theme-argon-header.ut" "$OPENWRT_PATH/package/feeds/luci/luci-theme-argon/ucode/template/themes/argon/header.ut" 
-    install -Dm755 "$GITHUB_WORKSPACE/patches/luci-theme-aurora-header.ut" "$OPENWRT_PATH/package/feeds/luci/luci-theme-aurora-header/ucode/template/themes/aurora/header.ut" 
+    install -Dm755 "$GITHUB_WORKSPACE/patches/luci-theme-aurora-header.ut" "$OPENWRT_PATH/package/feeds/luci/luci-theme-aurora/ucode/template/themes/aurora/header.ut" 
+    install -Dm755 "$GITHUB_WORKSPACE/patches/luci-theme-footstrap-sysauth.ut" "$OPENWRT_PATH/package/feeds/luci/luci-theme-footstrap/ucode/template/themes/footstrap/sysauth.ut" 
 }
-
 
 add_wifi_default_set() {
     local qualcommax_uci_dir="$OPENWRT_PATH/target/linux/qualcommax/base-files/etc/uci-defaults"
