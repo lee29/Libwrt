@@ -56,7 +56,7 @@
 	 together — `error` is the danger variant, the plugin's own notice stays amber.
 	-#}
 	{% if (fuser && !auth_plugin): %}
-		<div class="alert-message error">
+		<div class="alert-message error" style="display: none;">
 			<p>{{ _('Invalid username and/or password! Please try again.') }}</p>
 		</div>
 	{% endif %}
