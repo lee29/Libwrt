@@ -31,5 +31,5 @@ config interface 'wan'
 config device
 	option name 'wan'
 	option ipv6 '0'
-	option mtu '1492'
+	option mtu '1452'
 
