@@ -7,6 +7,11 @@ if [ "$current_value" -lt 65535 ]; then
     sed -i '/nf_conntrack_max/d' /etc/sysctl.conf
     # 写入新配置，设置最大连接数为65535
     echo "net.netfilter.nf_conntrack_max = 65535" >>/etc/sysctl.conf
+    # 调大超时和表容量
+    echo "net.netfilter.nf_conntrack_udp_timeout=600" >>/etc/sysctl.conf
+    echo "net.netfilter.nf_conntrack_udp_timeout_stream=120" >>/etc/sysctl.conf
+    echo "net.netfilter.nf_conntrack_max=1048576" >>/etc/sysctl.conf
+    echo "net.netfilter.nf_flowtable_udp_timeout=600" >>/etc/sysctl.conf
     # 应用配置并立即生效
     sysctl -p
 fi
