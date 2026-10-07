@@ -1,0 +1,16 @@
+# /etc/init.d/nikki-cleanup
+#!/bin/sh /etc/rc.common
+START=99
+STOP=10
+
+stop() {
+    # 清除 nikki 残留的 DNS 重定向规则
+    nft delete table inet nikki 2>/dev/null
+    iptables -t nat -D PREROUTING -p udp --dport 53 -j REDIRECT --to-port 1053 2>/dev/null
+    iptables -t nat -D PREROUTING -p tcp --dport 53 -j REDIRECT --to-port 1053 2>/dev/null
+    # 恢复 dnsmasq 上游
+    uci set dhcp.@dnsmasq[0].server='223.5.5.5'
+    uci set dhcp.@dnsmasq[0].server='119.29.29.29'
+    uci commit dhcp
+    /etc/init.d/dnsmasq restart
+}
