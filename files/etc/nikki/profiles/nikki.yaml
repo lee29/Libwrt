@@ -6,17 +6,17 @@
 # 机场订阅
 proxy-providers:
   Airport1:
-    url: "https://zf.vistar.lat/sbciiol/"
+    url: "https://vistart.art/sbciiol/"
     type: http
     interval: 86400
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
       interval: 300
-    proxy: 直连
+    proxy: ♻️ 自动选择
 
   Airport2:
-    url: "https://dash.pqjc.site/api/v1/pq/"
+    url: "https://dasho.pqjc.site/api/v1/pq/"
     type: http
     interval: 86400
     health-check:
@@ -51,30 +51,32 @@ profile:
 #external-ui-name: zashboard
 #external-ui-url: "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
 
-# 嗅探（fakeip下其实可以不用嗅探）
+# 嗅探
 sniffer:
   enable: true
   sniff:
     HTTP:
       ports: [80, 8080-8880]
-      override-destination: true
+      override-destination: false    # ← 改动：原来是 true，改为 false 防止覆盖 CDN 目标
     TLS:
       ports: [443, 8443]
     QUIC:
       ports: [443, 8443]
-  skip-domain:
+  skip-domain:                       # ← 改动：追加 B站域名跳过嗅探
     - "Mijia Cloud"
     - "+.push.apple.com"
+    - "+.bilibili.com"
+    - "+.hdslb.com"
+    - "+.bilivideo.com"
+    - "+.biliapi.com"
+    - "+.b23.tv"
+    - "+.acgvideo.com"
 
 # 入站
 tun:
   enable: true
-  # system/gvisor/mixed
   stack: mixed
   dns-hijack: ["any:53", "tcp://any:53"]
-  #使用nikki，混入全部不修改的情况，开启接口指定为nikki
-  #device: nikki
-  #使用仅内核自行修改下面三项为true
   auto-route: false
   auto-redirect: false
   auto-detect-interface: false
@@ -91,6 +93,23 @@ dns:
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
     - "rule-set:fakeipfilter_domain"
+    # ↓ 改动：手动追加 B站全系列域名，排除 Fake-IP
+    - "bilibili.com"
+    - "+.bilibili.com"
+    - "hdslb.com"
+    - "+.hdslb.com"
+    - "hdslb.tv"
+    - "+.hdslb.tv"
+    - "bilivideo.com"
+    - "+.bilivideo.com"
+    - "biliapi.com"
+    - "+.biliapi.com"
+    - "b23.tv"
+    - "+.b23.tv"
+    - "acgvideo.com"
+    - "+.acgvideo.com"
+    - "ibilibili.com"
+    - "+.ibilibili.com"
   default-nameserver:
     - https://223.5.5.5/dns-query
   proxy-server-nameserver:
@@ -99,10 +118,16 @@ dns:
   nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
- 
-# 出站策略，根据自己情况调整每个策略里分组排序，增删都可以，比如把美国自动放到第一个，比如删除香港故转，注意别漏掉表情逗号等。
-# 如果相应分组没有筛选到对应的国家，请根据自己节点名字调整筛选关键字。
-# 没有再使用锚点，是考虑很多新手修改难度，这样新手修改某个分组更容易些。
+  # ↓ 改动：新增 nameserver-policy，国内走国内 DoH，国外走 Cloudflare
+  nameserver-policy:
+    "geosite:geolocation-!cn":
+      - https://1.1.1.1/dns-query
+      - https://8.8.8.8/dns-query
+    "geosite:cn":
+      - https://dns.alidns.com/dns-query
+      - https://doh.pub/dns-query
+
+# 出站策略
 proxy-groups:
   - {name: 🚀 默认代理, type: select, proxies: [♻️ 自动选择, 🌐 美国三网, ♻️ 香港自动,♻️ 美国自动, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 日本自动, ♻️ 狮城自动, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
   - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^((?!(直连)).)*$"}
@@ -120,7 +145,7 @@ proxy-groups:
   - {name: 💶 PayPal, type: select, proxies: [♻️ 自动选择, 🌐 美国三网, ♻️ 香港自动,♻️ 美国自动, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 日本自动, ♻️ 狮城自动, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
   - {name: 🐟 漏网之鱼, type: select, proxies: [🚀 默认代理, ♻️ 自动选择, 🌐 美国三网, ♻️ 香港自动,♻️ 美国自动, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 日本自动, ♻️ 狮城自动, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
   - {name: 🇭🇰 香港节点, type: select, include-all: true, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
-  - {name: 🇯🇵 日本节点, type: select, include-all: true, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$"}
+  - {name: 🇯🇵 日本节点, type: select, include-all: true, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|          |美)).)*$"}
   - {name: 🇸🇬 狮城节点, type: select, include-all: true, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(台|日|韩|深|美)).)*$"}
   - {name: 🇺🇲 美国节点, type: select, include-all: true, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|韩|新|日)).)*$"}
   - {name: 🔯 香港故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
@@ -130,16 +155,21 @@ proxy-groups:
   - {name: ♻️ 日本自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$"}
   - {name: ♻️ 狮城自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(港|台|韩|日|美)).)*$"}
   - {name: ♻️ 美国自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
-  #需要替换miho核心才能支持smart
-  #- {name: ♻️ 美国智能, type: smart, uselightgbm: false, collectdata: false, include-all: true, interval: 300, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
-  #
   - {name: 🌐 全部节点, type: select, include-all: true}
-
 
 # 规则匹配
 rules:
   - RULE-SET,private_ip,直连,no-resolve
   - RULE-SET,private_domain,直连
+  # ↓ 改动：B站全系列强制直连（放在最前面优先匹配）
+  - DOMAIN-SUFFIX,bilibili.com,直连
+  - DOMAIN-SUFFIX,hdslb.com,直连
+  - DOMAIN-SUFFIX,bilivideo.com,直连
+  - DOMAIN-SUFFIX,biliapi.com,直连
+  - DOMAIN-SUFFIX,b23.tv,直连
+  - DOMAIN-SUFFIX,acgvideo.com,直连
+  - DOMAIN-SUFFIX,ibilibili.com,直连
+  # ↑ 改动结束
   - DOMAIN-SUFFIX,qichiyu.com,🚀 默认代理
   - RULE-SET,proxylite,🚀 默认代理
   - RULE-SET,ai,🤖 ChatGPT
@@ -163,7 +193,6 @@ rules:
   - MATCH,🐟 漏网之鱼
 
 # 规则集
-## type：可选http/file/inline  behavior：可选domain/ipcidr/classical format：可选yaml/text/mrs
 rule-anchor:
   ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
   domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
