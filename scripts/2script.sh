@@ -81,6 +81,12 @@ sed -ri \'/check_signature/s@^[^#]@#&@\' /etc/opkg.conf\n" $emortal_def_dir/file
     fi
 }
 
+add_nikki_tun_mode() {
+    local nikki_uci_file="$OPENWRT_PATH/package/nikki/files/nikki.config"
+    if [ -f "$nikki_uci_file" ]; then
+        sed -i "s/option tcp_mode 'redirect'/option tcp_mode 'tun'/g" "$nikki_uci_file"
+    fi
+}
 
 
 main() {
@@ -91,6 +97,7 @@ main() {
     #fix_build_for_openssl
     #fix_mk_def_depends
     install_opkg_distfeeds
+    add_nikki_tun_mode
 }
 
 main "$@"
