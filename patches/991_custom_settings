@@ -8,25 +8,25 @@ if [ "$current_value" -lt 65535 ]; then
     # 写入新配置，设置最大连接数为65535
     echo "net.netfilter.nf_conntrack_max = 65535" >>/etc/sysctl.conf
     # 调大超时和表容量
-  #  echo "net.netfilter.nf_conntrack_udp_timeout=600" >>/etc/sysctl.conf
-  #  echo "net.netfilter.nf_conntrack_udp_timeout_stream=120" >>/etc/sysctl.conf
-  #  echo "net.netfilter.nf_conntrack_max=1048576" >>/etc/sysctl.conf
-  #  echo "net.netfilter.nf_flowtable_udp_timeout=600" >>/etc/sysctl.conf
+    echo "net.netfilter.nf_conntrack_udp_timeout=600" >>/etc/sysctl.conf
+    echo "net.netfilter.nf_conntrack_udp_timeout_stream=120" >>/etc/sysctl.conf
+    echo "net.netfilter.nf_conntrack_max=1048576" >>/etc/sysctl.conf
+    echo "net.netfilter.nf_flowtable_udp_timeout=600" >>/etc/sysctl.conf
 ####################
-    echo "net.netfilter.nf_conntrack_tcp_timeout_syn_recv=60" >> /etc/sysctl.conf
-    echo "net.netfilter.nf_conntrack_tcp_timeout_syn_sent=60" >> /etc/sysctl.conf
-    echo "net.netfilter.nf_conntrack_tcp_timeout_fin_wait=60" >> /etc/sysctl.conf
-    echo "net.netfilter.nf_conntrack_tcp_timeout_close_wait=60" >> /etc/sysctl.conf
-    echo "net.netfilter.nf_conntrack_tcp_timeout_last_ack=60" >> /etc/sysctl.conf
-    echo "net.netfilter.nf_conntrack_tcp_timeout_time_wait=30" >> /etc/sysctl.conf
-    echo "net.netfilter.nf_conntrack_tcp_timeout_close=10" >> /etc/sysctl.conf
-    echo "net.netfilter.nf_conntrack_tcp_timeout_established=3600" >> /etc/sysctl.conf
-    echo "net.netfilter.nf_conntrack_udp_timeout=20" >> /etc/sysctl.conf
-    echo "net.netfilter.nf_conntrack_udp_timeout_stream=120" >> /etc/sysctl.conf
-    echo "net.netfilter.nf_conntrack_icmp_timeout=10" >> /etc/sysctl.conf
-    echo "net.netfilter.nf_flowtable_udp_timeout=600" >> /etc/sysctl.conf
-    echo "net.ipv4.ip_local_port_range=1024 65000" >> /etc/sysctl.conf
-    echo "net.ipv4.tcp_tw_reuse=1" >> /etc/sysctl.conf
+    #echo "net.netfilter.nf_conntrack_tcp_timeout_syn_recv=60" >> /etc/sysctl.conf
+    #echo "net.netfilter.nf_conntrack_tcp_timeout_syn_sent=60" >> /etc/sysctl.conf
+    #echo "net.netfilter.nf_conntrack_tcp_timeout_fin_wait=60" >> /etc/sysctl.conf
+    #echo "net.netfilter.nf_conntrack_tcp_timeout_close_wait=60" >> /etc/sysctl.conf
+    #echo "net.netfilter.nf_conntrack_tcp_timeout_last_ack=60" >> /etc/sysctl.conf
+    #echo "net.netfilter.nf_conntrack_tcp_timeout_time_wait=30" >> /etc/sysctl.conf
+    #echo "net.netfilter.nf_conntrack_tcp_timeout_close=10" >> /etc/sysctl.conf
+    #echo "net.netfilter.nf_conntrack_tcp_timeout_established=3600" >> /etc/sysctl.conf
+    #echo "net.netfilter.nf_conntrack_udp_timeout=20" >> /etc/sysctl.conf
+    #echo "net.netfilter.nf_conntrack_udp_timeout_stream=120" >> /etc/sysctl.conf
+    #echo "net.netfilter.nf_conntrack_icmp_timeout=10" >> /etc/sysctl.conf
+    #echo "net.netfilter.nf_flowtable_udp_timeout=600" >> /etc/sysctl.conf
+    #echo "net.ipv4.ip_local_port_range=1024 65000" >> /etc/sysctl.conf
+    #echo "net.ipv4.tcp_tw_reuse=1" >> /etc/sysctl.conf
 ####################
     # 应用配置并立即生效
     sysctl -p
