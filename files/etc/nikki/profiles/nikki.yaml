@@ -6,7 +6,7 @@
 # 机场订阅
 proxy-providers:
   Airport1:
-    url: "https://vistart.art/sbciiol/"
+    #url: "https://dy.vistart.art/sbciiol/"
     type: http
     interval: 86400
     health-check:
@@ -16,7 +16,7 @@ proxy-providers:
     proxy: ♻️ 自动选择
 
   Airport2:
-    url: "https://dasho.pqjc.site/api/v1/pq/"
+    #url: "https://dasho.xn--cp3a08l.com/api/v1/pq/"
     type: http
     interval: 86400
     health-check:
@@ -24,6 +24,16 @@ proxy-providers:
       url: https://www.gstatic.com/generate_204
       interval: 300
     proxy: 直连
+
+  Airport3:
+    url: "https://whikbuyhhkijh3.clash-micat.top/api/v1/client/subscribe/"
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    proxy: ♻️ 自动选择
 
 # 节点信息
 proxies:
@@ -45,11 +55,14 @@ profile:
   store-fake-ip: true
 
 # 为防止使用插件朋友遇到面板问题，我注释掉了此模块。
-#external-controller: 0.0.0.0:9090
-#secret: ""
-#external-ui: ui
-#external-ui-name: zashboard
-#external-ui-url: "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
+external-controller: 0.0.0.0:9090
+secret: "979410"
+external-ui: ui
+external-ui-name: MetaCubeXD
+external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
+#external-ui-name: Yacd
+#external-ui-url: "https://cdn.jsdelivr.net/gh/MetaCubeX/Yacd-meta@gh-pages/archive.zip"
+
 
 # 嗅探
 sniffer:
@@ -118,19 +131,36 @@ dns:
   nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
-  # ↓ 改动：新增 nameserver-policy，国内走国内 DoH，国外走 Cloudflare
-  nameserver-policy:
-    "geosite:geolocation-!cn":
-      - https://1.1.1.1/dns-query
-      - https://8.8.8.8/dns-query
-    "geosite:cn":
-      - https://dns.alidns.com/dns-query
-      - https://doh.pub/dns-query
+
 
 # 出站策略
 proxy-groups:
-  - {name: 🚀 默认代理, type: select, proxies: [♻️ 自动选择, 🌐 美国三网, ♻️ 香港自动,♻️ 美国自动, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 日本自动, ♻️ 狮城自动, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
-  - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^((?!(直连)).)*$"}
+  - {name: 🚀 默认代理, type: select, proxies: [♻️ 自动选择, ♻️ Airport1, ♻️ Airport3, 🌐 美国三网, ♻️ 香港自动,♻️ 美国自动, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 日本自动, ♻️ 狮城自动, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: 🇲🇴 澳门自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(澳|Macau|MO|澳门))^((?!(台|日|韩|港|美)).)*$"}
+  - {name: ♻️ Airport1, type: url-test, use: ["Airport1"], tolerance: 20, interval: 300, lazy: true, url: "https://cp.cloudflare.com/generate_204"}
+  - {name: ♻️ Airport3, type: url-test, use: ["Airport3"], tolerance: 20, interval: 300, lazy: true}
+  # - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^((?!(直连)).)*$"}
+  - name: ♻️ 自动选择
+    type: fallback
+    proxies:
+      - 🇲🇴 澳门自动
+      - 🌐 美国三网
+      - ♻️ 香港自动
+      - ♻️ 美国自动
+      - 🔯 香港故转
+      - 🔯 日本故转
+      - 🔯 狮城故转
+      - 🔯 美国故转
+      - ♻️ 日本自动
+      - ♻️ 狮城自动
+      - 🇭🇰 香港节点
+      - 🇯🇵 日本节点
+      - 🇸🇬 狮城节点
+      - 🇺🇲 美国节点
+      - 🌐 全部节点
+    url: https://www.gstatic.com/generate_204
+    interval: 300
+
   - {name: 🌐 美国三网, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(三网|移动|AWS新加坡|美国-))^((?!(台|韩|深|日)).)*$"}
   - {name: ♻️ 香港自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
   - {name: 📹 YouTube, type: select, proxies: [♻️ 自动选择, 🌐 美国三网, ♻️ 香港自动,♻️ 美国自动, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 日本自动, ♻️ 狮城自动, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
