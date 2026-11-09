@@ -82,7 +82,7 @@ sed -ri \'/check_signature/s@^[^#]@#&@\' /etc/opkg.conf\n" $emortal_def_dir/file
 }
 
 add_nikki_tun_mode() {
-    local nikki_uci_file="$OPENWRT_PATH/package/nikki/files/nikki.conf"
+    local nikki_uci_file="$OPENWRT_PATH/package/OpenWrt-nikki/nikki/files/nikki.conf"
     if [ -f "$nikki_uci_file" ]; then
         sed -i "s/	option 'tcp_mode' 'redirect'/option 'tcp_mode' 'tun'/g" "$nikki_uci_file"
     fi
