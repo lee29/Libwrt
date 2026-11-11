@@ -1,5 +1,5 @@
 #!name = 🚫 番茄小说去广告
-#!desc = 番茄小说广告拦截2
+#!desc = 番茄小说广告拦截3
 #!author = ALLG999
 #!homepage = https://github.com/lee29/Libwrt
 #!tag = 去广告,番茄小说
@@ -74,7 +74,7 @@ DOMAIN,buysecm.com,REJECT
 
 #DOMAIN-KEYWORD,api,REJECT
 
-DOMAIN-KEYWORD,sdk,REJECT
+#DOMAIN-KEYWORD,sdk,REJECT
 
 DOMAIN-KEYWORD,ad,REJECT
 
