@@ -1,9 +1,10 @@
 /*
  * Bilibili Thread Ripper for Loon
- * Version 2.0.0
+ * Version: 2.1.0
  *
- * CDN Smart Scheduler
- * Success Rate
+ * Smart CDN Scheduler
+ * Request / Response Detection
+ * Success Rate Statistics
  * Latency Tracking
  * Failure Cooldown
  * Automatic Recovery
@@ -12,8 +13,9 @@
 (function () {
     "use strict";
 
-    const VERSION = "2.0.0";
-    const DB_KEY = "BTR_LOON_V2_HEALTH";
+    const VERSION = "2.1.0";
+    const DB_KEY = "BTR_LOON_V21_HEALTH";
+    const TIME_KEY = "BTR_LOON_V21_TIMES";
 
     const MAINLAND = [
         "upos-sz-mirrorali.bilivideo.com",
@@ -34,9 +36,42 @@
         "cn-hk-eq-01-03.bilivideo.com"
     ];
 
-    const arg = $argument || {};
+    // -------------------------
+    // 参数解析
+    // -------------------------
 
-    const enabled = arg.enabled !== false;
+    function parseArgument(input) {
+        if (input && typeof input === "object") {
+            return input;
+        }
+
+        const result = {};
+
+        if (typeof input === "string") {
+            input.split("&").forEach(function (item) {
+                const index = item.indexOf("=");
+
+                if (index < 0) return;
+
+                const key = decodeURIComponent(
+                    item.slice(0, index)
+                );
+
+                const value = decodeURIComponent(
+                    item.slice(index + 1)
+                );
+
+                result[key] = value;
+            });
+        }
+
+        return result;
+    }
+
+    const arg = parseArgument($argument);
+
+    const enabled = arg.enabled !== false &&
+        arg.enabled !== "false";
 
     if (!enabled) {
         $done({});
@@ -45,32 +80,56 @@
 
     const region = arg.region || "mainland";
     const mode = arg.mode || "smart";
-    const maxFail = Number(arg.maxFail || 3);
-    const cooldown = Number(arg.cooldown || 300) * 1000;
-    const debug = arg.debug === true;
+
+    const maxFail = Math.max(
+        1,
+        Number(arg.maxFail) || 3
+    );
+
+    const cooldown = Math.max(
+        30,
+        Number(arg.cooldown) || 300
+    ) * 1000;
+
+    const debug = arg.debug === true ||
+        arg.debug === "true";
+
+    // -------------------------
+    // 日志
+    // -------------------------
 
     function log(message) {
         if (debug) {
-            console.log("[BTR V2] " + message);
+            console.log(
+                "[BTR " + VERSION + "] " + message
+            );
         }
     }
 
-    function loadDB() {
+    // -------------------------
+    // 持久化
+    // -------------------------
+
+    function loadJSON(key) {
         try {
             return JSON.parse(
-                $persistentStore.read(DB_KEY) || "{}"
+                $persistentStore.read(key) || "{}"
             );
         } catch (_) {
             return {};
         }
     }
 
-    function saveDB(db) {
+    function saveJSON(key, value) {
         $persistentStore.write(
-            JSON.stringify(db),
-            DB_KEY
+            JSON.stringify(value),
+            key
         );
     }
+
+    // -------------------------
+    // CDN
+    // -------------------------
 
     function getHosts() {
         return region === "overseas"
@@ -90,15 +149,15 @@
         try {
             const u = new URL(url);
 
-            const host = u.hostname.toLowerCase();
-
             const validDomain =
-                /(?:^|\.)bilivideo\.(?:com|cn|net)$/.test(host);
+                /(?:^|\.)bilivideo\.(com|cn|net)$/i
+                .test(u.hostname);
 
             const validPath =
                 /\.(m4s|mp4|flv)$/i.test(u.pathname);
 
             return validDomain && validPath;
+
         } catch (_) {
             return false;
         }
@@ -111,16 +170,18 @@
             return (
                 /(?:^|\.)mcdn\./i.test(u.hostname) ||
                 /^\/v1\/resource\//i.test(u.pathname) ||
-                (u.searchParams.get("os") || "").toLowerCase() === "mcdn"
+                (u.searchParams.get("os") || "")
+                    .toLowerCase() === "mcdn"
             );
+
         } catch (_) {
             return true;
         }
     }
 
-    function isAkamai(url) {
-        return /\.akamaized\.net$/i.test(getHost(url));
-    }
+    // -------------------------
+    // 节点状态
+    // -------------------------
 
     function getState(db, host) {
         if (!db[host]) {
@@ -131,89 +192,170 @@
                 samples: 0,
                 streak: 0,
                 cooldownUntil: 0,
-                lastUsed: 0
+                lastUsed: 0,
+                lastStatus: 0
             };
         }
 
         return db[host];
     }
 
-    function score(state) {
-        const total = state.success + state.failure;
+    // -------------------------
+    // CDN 评分
+    // -------------------------
 
-        const successRate = total
+    function score(state) {
+        const total =
+            state.success + state.failure;
+
+        const successRate = total > 0
             ? state.success / total
             : 0.5;
 
-        const latencyScore = state.samples
+        const latencyScore = state.samples > 0
             ? 1000 / Math.max(1, state.latency)
             : 0.5;
 
         return (
             successRate * 0.6 +
-            latencyScore * 0.4
+            Math.min(1, latencyScore) * 0.4
         );
-    }
-
-    function available(host, state) {
-        if (state.cooldownUntil > Date.now()) {
-            return false;
-        }
-
-        return true;
     }
 
     function selectHost(hosts, db) {
         const now = Date.now();
 
-        const candidates = hosts.map(host => ({
-            host,
-            state: getState(db, host)
-        }));
+        const candidates = hosts.map(function (host) {
+            return {
+                host: host,
+                state: getState(db, host)
+            };
+        });
 
-        // 过期节点自动恢复
-        candidates.forEach(item => {
+        // 自动恢复
+        candidates.forEach(function (item) {
+            const state = item.state;
+
             if (
-                item.state.cooldownUntil &&
-                item.state.cooldownUntil <= now
+                state.cooldownUntil > 0 &&
+                state.cooldownUntil <= now
             ) {
-                item.state.cooldownUntil = 0;
-                item.state.streak = 0;
+                state.cooldownUntil = 0;
+                state.streak = 0;
+
                 log("节点恢复: " + item.host);
             }
         });
 
-        let availableHosts = candidates.filter(item =>
-            available(item.host, item.state)
-        );
+        let available = candidates.filter(function (item) {
+            return item.state.cooldownUntil <= now;
+        });
 
-        if (!availableHosts.length) {
-            availableHosts = candidates;
+        if (!available.length) {
+            available = candidates;
         }
 
         if (mode === "roundrobin") {
-            availableHosts.sort(
-                (a, b) =>
-                    a.state.lastUsed - b.state.lastUsed
-            );
+            available.sort(function (a, b) {
+                return a.state.lastUsed -
+                    b.state.lastUsed;
+            });
+
         } else {
-            availableHosts.sort(
-                (a, b) =>
-                    score(b.state) - score(a.state)
+            // 优先探索尚未使用过的节点
+            const unexplored = available.filter(
+                function (item) {
+                    return (
+                        item.state.success +
+                        item.state.failure
+                    ) === 0;
+                }
             );
+
+            if (unexplored.length > 0) {
+                available = unexplored;
+            } else {
+                available.sort(function (a, b) {
+                    const difference =
+                        score(b.state) -
+                        score(a.state);
+
+                    if (Math.abs(difference) < 0.0001) {
+                        return a.state.lastUsed -
+                            b.state.lastUsed;
+                    }
+
+                    return difference;
+                });
+            }
         }
 
-        const selected = availableHosts[0];
+        const selected = available[0];
 
         selected.state.lastUsed = now;
 
         return selected.host;
     }
 
-    function updateResult(host, status, elapsed, db) {
+    // -------------------------
+    // 请求时间队列
+    // -------------------------
+
+    function recordStart(url) {
+        const times = loadJSON(TIME_KEY);
+
+        if (!Array.isArray(times[url])) {
+            times[url] = [];
+        }
+
+        times[url].push(Date.now());
+
+        // 防止异常积累
+        if (times[url].length > 20) {
+            times[url] = times[url].slice(-20);
+        }
+
+        saveJSON(TIME_KEY, times);
+    }
+
+    function getElapsed(url) {
+        const times = loadJSON(TIME_KEY);
+
+        if (
+            !Array.isArray(times[url]) ||
+            !times[url].length
+        ) {
+            return 0;
+        }
+
+        const start = times[url].shift();
+
+        if (!times[url].length) {
+            delete times[url];
+        }
+
+        saveJSON(TIME_KEY, times);
+
+        return Math.max(0, Date.now() - start);
+    }
+
+    // -------------------------
+    // 更新 CDN 状态
+    // -------------------------
+
+    function updateResult(host, status, elapsed) {
+        const hosts = getHosts();
+
+        // 只统计本插件管理的节点
+        if (!hosts.includes(host)) return;
+
+        const db = loadJSON(DB_KEY);
         const state = getState(db, host);
 
+        state.lastStatus = status;
+
         if (status >= 200 && status < 400) {
+
             state.success++;
             state.streak = 0;
 
@@ -232,23 +374,34 @@
             log(
                 "成功 " + host +
                 " HTTP " + status +
-                " " + elapsed + "ms"
+                " 延迟 " + elapsed + "ms"
             );
 
         } else if (
             status === 403 ||
-            status === 404 ||
+            status === 429 ||
             status >= 500
         ) {
+
             state.failure++;
-            state.streak++;
+
+            // 403 和 429 降权，但不直接冷却
+            if (status >= 500) {
+                state.streak++;
+            } else {
+                state.streak = Math.max(
+                    0,
+                    state.streak - 1
+                );
+            }
 
             log(
-                "失败 " + host +
+                "异常 " + host +
                 " HTTP " + status
             );
 
             if (state.streak >= maxFail) {
+
                 state.cooldownUntil =
                     Date.now() + cooldown;
 
@@ -260,108 +413,112 @@
             }
         }
 
-        saveDB(db);
+        // 404 不作为 CDN 节点故障依据
+        saveJSON(DB_KEY, db);
     }
+
+    // -------------------------
+    // Request Script
+    // -------------------------
 
     function requestHandler() {
         const original = $request.url;
 
         if (
             !isValidMedia(original) ||
-            isRelay(original) ||
-            isAkamai(original)
+            isRelay(original)
         ) {
             $done({});
             return;
         }
 
+        const hosts = getHosts();
         const originalHost = getHost(original);
 
-        const hosts = getHosts();
+        const db = loadJSON(DB_KEY);
 
-        if (!hosts.length) {
+        // 已属于管理列表的请求，记录原节点状态
+        let selected;
+
+        if (hosts.includes(originalHost)) {
+            selected = originalHost;
+        } else {
+            selected = selectHost(hosts, db);
+        }
+
+        // 记录目标 URL 的请求开始时间
+        let finalURL = original;
+
+        if (selected !== originalHost) {
+            const url = new URL(original);
+
+            // 只修改主机名
+            url.hostname = selected;
+            url.port = "";
+
+            finalURL = url.toString();
+        }
+
+        recordStart(finalURL);
+
+        saveJSON(DB_KEY, db);
+
+        if (finalURL === original) {
             $done({});
             return;
         }
-
-        const db = loadDB();
-
-        const selected = selectHost(hosts, db);
-
-        if (selected === originalHost) {
-            $done({});
-            return;
-        }
-
-        const url = new URL(original);
-
-        // 仅替换 hostname，保留路径及全部签名参数
-        url.hostname = selected;
-        url.port = "";
-
-        const newURL = url.toString();
-
-        // 保存请求开始时间
-        const key = "BTR_V2_TIME_" +
-            encodeURIComponent(newURL);
-
-        $persistentStore.write(
-            String(Date.now()),
-            key
-        );
 
         log(
             originalHost + " -> " + selected
         );
 
         $done({
-            url: newURL
+            url: finalURL
         });
     }
+
+    // -------------------------
+    // Response Script
+    // -------------------------
 
     function responseHandler() {
         const url = $request.url;
         const host = getHost(url);
 
-        const key = "BTR_V2_TIME_" +
-            encodeURIComponent(url);
+        const elapsed = getElapsed(url);
 
-        const start = Number(
-            $persistentStore.read(key) || 0
+        const status = Number(
+            $response.status || 0
         );
-
-        $persistentStore.write(undefined, key);
-
-        const elapsed = start
-            ? Date.now() - start
-            : 0;
-
-        const status = Number($response.status || 0);
-
-        const db = loadDB();
 
         updateResult(
             host,
             status,
-            elapsed,
-            db
+            elapsed
         );
 
         $done({});
     }
 
-    try {
-        const name = String(
-            ($script && $script.name) || ""
-        ).toLowerCase();
+    // -------------------------
+    // 执行入口
+    // -------------------------
 
-        if (name.includes("response")) {
+    try {
+        // Loon Response Script 才提供 $response
+        if (
+            typeof $response !== "undefined" &&
+            $response !== null
+        ) {
             responseHandler();
+
         } else {
             requestHandler();
         }
-    } catch (e) {
-        log("异常: " + e);
+
+    } catch (error) {
+
+        log("执行异常: " + String(error));
 
         $done({});
     }
