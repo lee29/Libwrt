@@ -1,9 +1,9 @@
-#!name = Bilibili Thread Ripper V2
-#!desc = Bilibili CDN 智能优选、节点评分、故障冷却与自动恢复
+#!name = Bilibili Thread Ripper V2.1
+#!desc = Bilibili CDN 智能优选、成功率统计、延迟评分、故障冷却与自动恢复
 #!author = OpenAI
 #!homepage = https://github.com/lee29/Libwrt
 #!loon_version = 3.5.1(983)
-#!tag = Bilibili,CDN,网络加速
+#!tag = Bilibili,CDN,网络优化
 
 [Argument]
 enabled = switch,true,tag=启用加速
@@ -16,7 +16,7 @@ debug = switch,false,tag=调试日志
 [Script]
 http-request ^https://[^/]+/.*.(m4s|mp4|flv)(?:?|$) script-path=https://raw.githubusercontent.com/lee29/Libwrt/refs/heads/main/patches/btr-loon-v2.js, argument=“enabled=${enabled}&region=${region}&mode=${mode}&maxFail=${maxFail}&cooldown=${cooldown}&debug=${debug}”, timeout=10, tag=BTR CDN Request
 
-http-response ^https://[^/]+/.*.(m4s|mp4|flv)(?:?|$) script-path=https://raw.githubusercontent.com/lee29/Libwrt/refs/heads/main/patches/btr-loon-v2.js, argument=“enabled=${enabled}&region=${region}&mode=${mode}&maxFail=${maxFail}&cooldown=${cooldown}&debug=${debug}”, timeout=10, tag=BTR CDN Response
+http-response ^https://[^/]+/.*.(m4s|mp4|flv)(?:?|$) script-path=https://raw.githubusercontent.com/lee29/Libwrt/refs/heads/main/patches/btr-loon-v2.js, argument=“enabled=${enabled}&region=${region}&mode=${mode}&maxFail=${maxFail}&cooldown=${cooldown}&debug=${debug}”, timeout=10, requires-body=0, tag=BTR CDN Response
 
 [MITM]
 hostname = %APPEND% *.bilivideo.com, *.bilivideo.cn, *.bilivideo.net
