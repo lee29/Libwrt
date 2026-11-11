@@ -70,7 +70,7 @@ DOMAIN,buysecm.com,REJECT
 
 #关键词拦截（默认关闭）
 
-DOMAIN-KEYWORD,zijieapi,REJECT
+#DOMAIN-KEYWORD,zijieapi,REJECT
 
 #DOMAIN-KEYWORD,api,REJECT
 
